@@ -4,7 +4,7 @@ import os
 #import boto3
 #import re  # 正規表現モジュールをインポート
 #from botocore.exceptions import ClientError
-import requests
+import urllib.request
 
 
 # Lambda コンテキストからリージョンを抽出する関数
@@ -56,13 +56,18 @@ def lambda_handler(event, context):
             "top_p": 0.9
         }
 
-        response = requests.post(
-            "https://a9a4-34-142-144-34.ngrok-free.app/generate",  # ngrok URL
-            json=payload
-        )
-        response.raise_for_status()
+        data = json.dumps(payload).encode("utf-8")
 
-        result = response.json()
+        req = urllib.request.Request(
+            "https://13a4-34-169-178-232.ngrok-free.app/generate",
+            data=data,
+            headers={"Content-Type": "application/json"},
+            method="POST"
+        )
+
+        with urllib.request.urlopen(req) as res:
+            response_body = res.read()
+        result = json.loads(response_body.decode("utf-8"))
 
         return {
             "statusCode": 200,
