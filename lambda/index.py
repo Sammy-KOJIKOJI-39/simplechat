@@ -57,7 +57,7 @@ def lambda_handler(event, context):
         }
 
         response = requests.post(
-            "https://3fe1-34-142-144-34.ngrok-free.app/generate",  # ngrok URL
+            "https://a9a4-34-142-144-34.ngrok-free.app/generate",  # ngrok URL
             json=payload
         )
         response.raise_for_status()
